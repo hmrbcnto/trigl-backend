@@ -1,0 +1,17 @@
+{
+  "name": "trigl-final-backend",
+  "version": "0.0.1",
+  "description": "trigl-final-backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "TriGL Doodz",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
