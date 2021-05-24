@@ -21,8 +21,8 @@ productsRouter.post('/', async (req, res) => {
         suppliers: body.suppliers
     })
 
-    const savedProduct = newProduct.save()
-    res.json(savedProduct)
+    const savedProduct = await newProduct.save()
+    res.json(savedProduct.toJSON())
 })
 
 module.exports = productsRouter

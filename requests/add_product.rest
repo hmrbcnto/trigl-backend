@@ -1,12 +1,12 @@
-POST http://localhost:3005/api/products
+POST https://afternoon-basin-88260.herokuapp.com/api/products/
 Content-Type: application/json
 
 {
-    "name": "Product2",
-    "productId": "Product2Id",
-    "description": "Product2Description",
-    "brand": "Product2Brand",
-    "price": 55,
-    "stock": 12,
-    "suppliers": "Product2Supplier"
+    "name": "Product3",
+    "productId": "Product3Id",
+    "description": "Product3Description",
+    "brand": "Product3Brand",
+    "price": 35,
+    "stock": 32,
+    "suppliers": "Product3Supplier3
 }
