@@ -1,0 +1,12 @@
+POST http://localhost:3005/api/products
+Content-Type: application/json
+
+{
+    "name": "Product2",
+    "productId": "Product2Id",
+    "description": "Product2Description",
+    "brand": "Product2Brand",
+    "price": 55,
+    "stock": 12,
+    "suppliers": "Product2Supplier"
+}
