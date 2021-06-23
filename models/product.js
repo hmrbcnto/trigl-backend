@@ -9,10 +9,8 @@ const productSchema = new mongoose.Schema({
     price: Number,
     stock: Number,
     suppliers: String,
-    // img: {
-    //     data: Buffer,
-    //     contentType: String
-    // }
+    image: String,
+    image_id: String
 })
 
 //Upon being returned to JSON format, change the __id value to id

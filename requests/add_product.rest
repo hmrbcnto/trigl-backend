@@ -1,4 +1,4 @@
-POST https://afternoon-basin-88260.herokuapp.com/api/products/
+POST https://afternoon-basin-88260.herokuapp.com/api/products
 Content-Type: application/json
 
 {
@@ -8,5 +8,5 @@ Content-Type: application/json
     "brand": "Product3Brand",
     "price": 35,
     "stock": 32,
-    "suppliers": "Product3Supplier3
+    "suppliers": "Product3Supplier3"
 }

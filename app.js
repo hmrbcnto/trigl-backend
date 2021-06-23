@@ -7,6 +7,10 @@ const productsRouter = require('./controllers/products')
 const mongoose = require('mongoose')
 const logger = require('./utils/logger')
 const config = require('./utils/config')
+const bodyParser = require('body-parser')
+const fs = require('fs')
+const uploadRouter = require('./controllers/upload')
+const imageProcessing = require('./utils/imgProc')
 
 logger.info('Connecting to ', config.MONGODB_URI)
 
@@ -28,10 +32,12 @@ mongoose.connect(config.MONGODB_URI, {
 
 
 app.use(cors())
+
 //Uses the built-in express json converter
 app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use('/api/products', productsRouter)
+app.use('/uploads', uploadRouter)
 
 module.exports = app
