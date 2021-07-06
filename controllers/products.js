@@ -1,12 +1,10 @@
 const productsRouter = require('express').Router();
 const Product = require('../models/product');
 const upload = require('../utils/multer');
-const cloudinary = require('../utils/cloudinary')
+const cloudinary = require('../utils/cloudinary');
+const logger = require('../utils/logger');
 
 
-productsRouter.get('/hello', async(req, res) => {
-	res.send('Hello World');
-})
 
 productsRouter.post('/', upload.single("image"), async (req, res) => {
 
@@ -31,6 +29,50 @@ productsRouter.post('/', upload.single("image"), async (req, res) => {
 		res.json(savedProduct)
 })
 
+productsRouter.put('/:id', upload.single("image"), async(req,res, next) => {
+
+	const body = req.body;
+	let updatedProduct;
+
+	console.log(req.file);
+
+	//Check if there is an image
+	if (req.file) {
+		console.log(`Shit i'm here`);
+			const result = await cloudinary.uploader.upload(req.file.path);
+			updatedProduct = {
+				name: body.name,
+				productImage: result.secure_url,
+				productId: body.productId,
+				description: body.description,
+				brand: body.brand,
+				price: body.price,
+				stock: body.stock,
+				suppliers: body.suppliers
+			}
+	} else {
+			//Create a product
+			updatedProduct = {
+				name: body.name,
+				productImage: body.image,
+				productId: body.productId,
+				description: body.description,
+				brand: body.brand,
+				price: body.price,
+				stock: body.stock,
+				suppliers: body.suppliers
+	}
+	}
+	
+	//Save change
+	Product.findByIdAndUpdate(req.params.id, updatedProduct, { new: true })
+		.then(updatedNote => {
+			res.json(updatedNote)
+		})
+		.catch(error => next(error))
+
+})
+
 productsRouter.get('/', async (req, res) => {
 		const products = await Product.find();
 		res.json(products);
@@ -43,7 +85,10 @@ productsRouter.get('/:id', async (req, res) => {
 
 productsRouter.delete('/:id', async (req, res) => {
 		await Product.findByIdAndRemove(req.params.id);
-		res.status(204).end()
+		res
+				.json({ message: "Product successfully deleted!"})
+				.status(204)
+				.end()
 })
 
 module.exports = productsRouter;
