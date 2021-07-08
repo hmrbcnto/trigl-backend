@@ -3,29 +3,52 @@ const Product = require('../models/product');
 const upload = require('../utils/multer');
 const cloudinary = require('../utils/cloudinary');
 const logger = require('../utils/logger');
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const helper = require('../utils/helpers');
 
 
 
 productsRouter.post('/', upload.single("image"), async (req, res) => {
+		//Get req body
+		const body = req.body;
+
+		//Get token
+		const token = helper.getTokenFrom(req);
+		const decodedToken = jwt.verify(token, process.env.SECRET);
+
+		if(!token || !decodedToken.id){
+			return res
+							.status(401)
+							.json({
+								error: "Missing or invalid token"
+							})
+		}
 
 		// Try to upload image
 		const result = await cloudinary.uploader.upload(req.file.path);
 
+		// Get id of user who sent request
+		const user = await User.findById(decodedToken.id);
+
 		//Create new product
 		const product = new Product({
-			name: req.body.name,
+			name: body.name,
 			productImage: result.secure_url,
-			productId: req.body.productId,
-			description: req.body.description,
-			brand: req.body.brand,
-			price: req.body.price,
-			stock: req.body.stock,
-			suppliers: req.body.suppliers,
-			cloudinary_id: result.public_id
+			productId: body.productId,
+			description: body.description,
+			brand: body.brand,
+			price: body.price,
+			stock: body.stock,
+			suppliers: body.suppliers,
+			cloudinary_id: result.public_id,
+			user:	user._id
 		});
 
-		//Saving user instance
+		//Saving product instance
 		const savedProduct = await product.save();
+		user.products = user.products.concat(savedProduct._id);
+		await user.save();
 		res.json(savedProduct)
 })
 
@@ -34,11 +57,23 @@ productsRouter.put('/:id', upload.single("image"), async(req,res, next) => {
 	const body = req.body;
 	let updatedProduct;
 
-	console.log(req.file);
+	const token = helper.getTokenFrom(req);
+	const decodedToken = jwt.verify(token, process.env.SECRET);
+
+	console.log(decodedToken);
+
+	if(!token || !decodedToken.id) {
+		return res
+						.status(401)
+						.json(
+							{
+								error: "Missing or invalid token"
+							}
+						)
+	}
 
 	//Check if there is an image
 	if (req.file) {
-		console.log(`Shit i'm here`);
 			const result = await cloudinary.uploader.upload(req.file.path);
 			updatedProduct = {
 				name: body.name,

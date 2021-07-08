@@ -9,7 +9,11 @@ const productSchema = new mongoose.Schema({
 	price: Number,
 	stock: Number,
 	suppliers: String,
-	cloudinary_id: String
+	cloudinary_id: String,
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	}
 });
 
 // productSchema.set('toJSON', {
