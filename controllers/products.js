@@ -60,7 +60,6 @@ productsRouter.put('/:id', upload.single("image"), async(req,res, next) => {
 	const token = helper.getTokenFrom(req);
 	const decodedToken = jwt.verify(token, process.env.SECRET);
 
-	console.log(decodedToken);
 
 	if(!token || !decodedToken.id) {
 		return res
@@ -109,16 +108,63 @@ productsRouter.put('/:id', upload.single("image"), async(req,res, next) => {
 })
 
 productsRouter.get('/', async (req, res) => {
-		const products = await Product.find();
-		res.json(products);
+	const body = req.body;
+
+	const token = helper.getTokenFrom(req);
+	const decodedToken = jwt.verify(token, process.env.SECRET);
+
+	if(!token || !decodedToken.id) {
+		return res
+						.status(401)
+						.json(
+							{
+								error: "Missing or invalid token"
+							}
+						)
+	}
+
+	const products = await Product.find();
+	res.json(products);
 })
 
 productsRouter.get('/:id', async (req, res) => {
+	const body = req.body;
+
+	const token = helper.getTokenFrom(req);
+	const decodedToken = jwt.verify(token, process.env.SECRET);
+
+
+	if(!token || !decodedToken.id) {
+		return res
+						.status(401)
+						.json(
+							{
+								error: "Missing or invalid token"
+							}
+						)
+	}
+
 	const product = await Product.findById(req.params.id);
 	res.json(product);
 })
 
 productsRouter.delete('/:id', async (req, res) => {
+	const body = req.body;
+
+	const token = helper.getTokenFrom(req);
+	const decodedToken = jwt.verify(token, process.env.SECRET);
+
+
+	if(!token || !decodedToken.id) {
+		return res
+						.status(401)
+						.json(
+							{
+								error: "Missing or invalid token"
+							}
+						)
+	}
+
 		await Product.findByIdAndRemove(req.params.id);
 		res
 				.json({ message: "Product successfully deleted!"})

@@ -11,7 +11,7 @@ const requestLogger = (request, response, next) => {
 }
 
 //Middleware for unknown endpoints
-const unknownEndpoint = () => {
+const unknownEndpoint = (request, response) => {
     response.status(404).send( { error: 'Unknown endpoint' } )
 }
 
