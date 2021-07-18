@@ -9,6 +9,9 @@ const middleware = require('./utils/middleware');
 const productsRouter = require('./controllers/products');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
+const categoryRouter = require('./controllers/category');
+const subcategoryRouter = require('./controllers/subcategory');
+const brandRouter = require('./controllers/brand');
 
 logger.info('Connecting to ', config.MONGODB_URI);
 
@@ -35,6 +38,9 @@ app.use(middleware.requestLogger);
 app.use('/api/products', productsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/categories', categoryRouter);
+app.use('/api/subcategories', subcategoryRouter);
+app.use('/api/brands', brandRouter);
 
 app.use(middleware.errorHandler);
 app.use(middleware.unknownEndpoint);
