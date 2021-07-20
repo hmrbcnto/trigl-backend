@@ -8,7 +8,8 @@ const productSchema = new mongoose.Schema({
 	stock: Number,
 	suppliers: [
 		{
-			type: String
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Supplier'
 		}
 	],
 	cloudinary_id: String,

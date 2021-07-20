@@ -5,10 +5,9 @@ const supplierSchema = new mongoose.Schema({
 	products: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Products'
+			ref: 'Product'
 		}
-	],
-	linkedPrices: Number
+	]
 })
 
 const Supplier = mongoose.model('Supplier', supplierSchema);

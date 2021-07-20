@@ -6,6 +6,7 @@ const logger = require('../utils/logger');
 const User = require('../models/user');
 const Subcategory = require('../models/subcategory');
 const Brand = require('../models/brand');
+const Supplier = require('../models/supplier');
 const Category = require('../models/category');
 const jwt = require('jsonwebtoken');
 const helper = require('../utils/helpers');
@@ -36,6 +37,11 @@ productsRouter.post('/', upload.single("image"), async (req, res) => {
 		// const user = await User.findById(decodedToken.id);
 		// Hard coded id
 		const user = await User.findOne( { username: "Jonas" });
+		
+		// Suppliers is an array!!
+		// Idk how u guys gonna test it but to make things easier let's make it work with single suppliers muna
+
+		const supplier = await Supplier.findOne( { name: body.suppliers });
 		const subcategory = await Subcategory.findOne( { name: body.subcategory } )
 		const category = await Category.findById(subcategory.category);
 		const brand = await Brand.findOne( { name: body.brand } );
@@ -50,7 +56,7 @@ productsRouter.post('/', upload.single("image"), async (req, res) => {
 			brand: brand._id,
 			price: body.price,
 			stock: body.stock,
-			suppliers: body.suppliers,
+			suppliers: supplier._id,
 			cloudinary_id: result.public_id,
 			user:	user._id,
 			category: category._id,
@@ -61,6 +67,11 @@ productsRouter.post('/', upload.single("image"), async (req, res) => {
 		const savedProduct = await product.save();
 		user.products = user.products.concat(savedProduct._id);
 		await user.save();
+
+		// Working for one supplier!
+		supplier.products = supplier.products.concat(savedProduct._id);
+		await supplier.save();
+
 		res.json(savedProduct)
 })
 
@@ -148,7 +159,8 @@ productsRouter.get('/', async (req, res) => {
 	const products = await Product
 														.find({})
 														.populate('category')
-														.populate('subcategory');
+														.populate('subcategory')
+														.populate('suppliers');
 	res.json(products);
 })
 
@@ -171,7 +183,8 @@ productsRouter.get('/:id', async (req, res) => {
 
 	const product = await Product.findById(req.params.id)
 																	.populate('categories')
-																	.populate('subcategories');
+																	.populate('subcategories')
+																	.populate('suppliers');
 	res.json(product);
 })
 

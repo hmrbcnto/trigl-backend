@@ -12,6 +12,7 @@ const loginRouter = require('./controllers/login');
 const categoryRouter = require('./controllers/category');
 const subcategoryRouter = require('./controllers/subcategory');
 const brandRouter = require('./controllers/brand');
+const supplierRouter = require('./controllers/suppliers');
 
 logger.info('Connecting to ', config.MONGODB_URI);
 
@@ -35,12 +36,15 @@ app.use(cors());
 app.use(express.json());
 app.use(middleware.requestLogger);
 
+
+// Routers
 app.use('/api/products', productsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/subcategories', subcategoryRouter);
 app.use('/api/brands', brandRouter);
+app.use('/api/suppliers', supplierRouter);
 
 app.use(middleware.errorHandler);
 app.use(middleware.unknownEndpoint);
