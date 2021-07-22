@@ -6,12 +6,12 @@ const productSchema = new mongoose.Schema({
 	productId: String,
 	price: Number,
 	stock: Number,
-	suppliers: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Supplier'
-		}
-	],
+	// suppliers: [
+	// 	{
+	// 		type: mongoose.Schema.Types.ObjectId,
+	// 		ref: 'Supplier'
+	// 	}
+	// ],
 	cloudinary_id: String,
 	brand: {
 		type: mongoose.Schema.Types.ObjectId,

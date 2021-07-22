@@ -41,7 +41,7 @@ productsRouter.post('/', upload.single("image"), async (req, res) => {
 		// Suppliers is an array!!
 		// Idk how u guys gonna test it but to make things easier let's make it work with single suppliers muna
 
-		const supplier = await Supplier.findOne( { name: body.suppliers });
+		// const supplier = await Supplier.findOne( { name: body.suppliers });
 		const subcategory = await Subcategory.findOne( { name: body.subcategory } )
 		const category = await Category.findById(subcategory.category);
 		const brand = await Brand.findOne( { name: body.brand } );
@@ -56,7 +56,7 @@ productsRouter.post('/', upload.single("image"), async (req, res) => {
 			brand: brand._id,
 			price: body.price,
 			stock: body.stock,
-			suppliers: supplier._id,
+			// suppliers: supplier._id,
 			cloudinary_id: result.public_id,
 			user:	user._id,
 			category: category._id,
@@ -69,8 +69,8 @@ productsRouter.post('/', upload.single("image"), async (req, res) => {
 		await user.save();
 
 		// Working for one supplier!
-		supplier.products = supplier.products.concat(savedProduct._id);
-		await supplier.save();
+		// supplier.products = supplier.products.concat(savedProduct._id);
+		// await supplier.save();
 
 		res.json(savedProduct)
 })
@@ -110,7 +110,7 @@ productsRouter.put('/:id', upload.single("image"), async(req,res, next) => {
 				brand: brand._id,
 				price: body.price,
 				stock: body.stock,
-				suppliers: body.suppliers,
+				// suppliers: body.suppliers,
 				cloudinary_id: result.public_id,
 				user:	user._id,
 				category: category._id,
@@ -124,7 +124,7 @@ productsRouter.put('/:id', upload.single("image"), async(req,res, next) => {
 				brand: brand._id,
 				price: body.price,
 				stock: body.stock,
-				suppliers: body.suppliers,
+				// suppliers: body.suppliers,
 				user:	user._id,
 				category: category._id,
 				subcategory: subcategory._id
@@ -160,7 +160,7 @@ productsRouter.get('/', async (req, res) => {
 														.find({})
 														.populate('category')
 														.populate('subcategory')
-														.populate('suppliers');
+														// .populate('suppliers');
 	res.json(products);
 })
 
@@ -184,7 +184,7 @@ productsRouter.get('/:id', async (req, res) => {
 	const product = await Product.findById(req.params.id)
 																	.populate('categories')
 																	.populate('subcategories')
-																	.populate('suppliers');
+																	// .populate('suppliers');
 	res.json(product);
 })
 
