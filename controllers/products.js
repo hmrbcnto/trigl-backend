@@ -57,6 +57,7 @@ productsRouter.post('/', upload.single("image"), async (req, res) => {
 			price: body.price,
 			stock: body.stock,
 			// suppliers: supplier._id,
+			tags: body.tags,
 			cloudinary_id: result.public_id,
 			user:	user._id,
 			category: category._id,
@@ -111,6 +112,7 @@ productsRouter.put('/:id', upload.single("image"), async(req,res, next) => {
 				price: body.price,
 				stock: body.stock,
 				// suppliers: body.suppliers,
+				tags: body.tags,
 				cloudinary_id: result.public_id,
 				user:	user._id,
 				category: category._id,
@@ -125,6 +127,7 @@ productsRouter.put('/:id', upload.single("image"), async(req,res, next) => {
 				price: body.price,
 				stock: body.stock,
 				// suppliers: body.suppliers,
+				tags: body.tags,
 				user:	user._id,
 				category: category._id,
 				subcategory: subcategory._id

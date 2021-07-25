@@ -13,6 +13,7 @@ const categoryRouter = require('./controllers/category');
 const subcategoryRouter = require('./controllers/subcategory');
 const brandRouter = require('./controllers/brand');
 const supplierRouter = require('./controllers/suppliers');
+const adminRouter = require('./controllers/admin');
 
 logger.info('Connecting to ', config.MONGODB_URI);
 
@@ -45,6 +46,7 @@ app.use('/api/categories', categoryRouter);
 app.use('/api/subcategories', subcategoryRouter);
 app.use('/api/brands', brandRouter);
 app.use('/api/suppliers', supplierRouter);
+app.use('/api/admin', adminRouter);
 
 app.use(middleware.errorHandler);
 app.use(middleware.unknownEndpoint);

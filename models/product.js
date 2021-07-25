@@ -13,6 +13,11 @@ const productSchema = new mongoose.Schema({
 	// 	}
 	// ],
 	cloudinary_id: String,
+	tags: [
+		{
+			type: String
+		}
+	],
 	brand: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Brand'
